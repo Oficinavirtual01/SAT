@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>SAT – Alertas</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <style>
+    html, body, #map { height: 100%; margin:0; }
+    .panel {
+      position: absolute; top: 12px; left: 12px; z-index: 9999;
+      background: rgba(255,255,255,0.95); padding: 10px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,.2);
+      font: 14px system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      max-width: 320px;
+    }
+    .panel h3 { margin: 0 0 8px; font-size: 16px; }
+    .panel label { display:block; margin: 6px 0 2px; font-weight: 600; }
+    .panel .row { display:flex; gap:6px; }
+    .legend { position:absolute; bottom:12px; left:12px; background:rgba(255,255,255,.9); padding:6px 8px; border-radius:8px; font-size:12px; }
+    .btn { display:inline-block; padding:6px 10px; border-radius:8px; border:1px solid #ddd; background:#fff; cursor:pointer; }
+    .btn:hover { background:#f2f2f2; }
+  </style>
+</head>
+<body>
+<div id="map"></div>
+
+<div class="panel">
+  <h3>Filtros SAT</h3>
+  <label>Comisaría</label>
+  <select id="fComisaria"><option value="">(Todas)</option></select>
+
+  <label>Distrito</label>
+  <select id="fDistrito"><option value="">(Todos)</option></select>
+
+  <div class="row">
+    <div style="flex:1">
+      <label>Día</label>
+      <select id="fDia"><option value="">(Todos)</option></select>
+    </div>
+    <div style="flex:1">
+      <label>Franja</label>
+      <select id="fFranja"><option value="">(Todas)</option></select>
+    </div>
+  </div>
+
+  <label>Confiabilidad mínima</label>
+  <input type="range" id="fConf" min="0" max="100" value="0" step="1"/>
+  <div><span id="confVal">0</span></div>
+
+  <div style="margin-top:8px; display:flex; gap:6px; flex-wrap:wrap;">
+    <label><input type="checkbox" id="layerPuntos" checked/> Centroides</label>
+    <label><input type="checkbox" id="layerPolys" checked/> Polígonos</label>
+    <label><input type="checkbox" id="layerHeat"  /> Heatmap</label>
+  </div>
+
+  <div style="margin-top:8px; display:flex; gap:6px; flex-wrap:wrap;">
+    <button class="btn" id="btnFit">Ajustar vista</button>
+    <button class="btn" id="btnExport">Descargar imagen</button>
+  </div>
+</div>
+
+<div class="legend">
+  <b>Confiabilidad</b>:
+  <span style="color:#2e7d32">Alta</span> /
+  <span style="color:#f9a825">Media</span> /
+  <span style="color:#c62828">Baja</span>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+<script src="https://unpkg.com/leaflet-easyprint@2.1.9/dist/bundle.min.js"></script>
+<script>
+const map = L.map('map').setView([-32.89, -68.84], 13);
+const baselayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; OpenStreetMap' }).addTo(map);
+
+let gjPoints, gjPolys, heat;
+let allFeatures = []; // centroides para fit
+const grupoPuntos = L.layerGroup().addTo(map);
+const grupoPolys  = L.layerGroup().addTo(map);
+
+// Paleta por confiabilidad
+function colorByConf(c){
+  if (c >= 70) return '#2e7d32'; // alta
+  if (c >= 40) return '#f9a825'; // media
+  return '#c62828';              // baja
+}
+
+// Popup HTML
+function popupHtml(p){
+  return `<div style="min-width:240px">
+    <div style="font-weight:700; margin-bottom:4px">${p.alerta_id || '(sin id)'}</div>
+    <div>${p.zona ? p.zona : ''}</div>
+    <div><small>${p.fecha || ''} — ${p.dia_label || ''} — ${p.franja_label || ''}</small></div>
+    <div style="margin-top:4px">Eventos: <b>${p.n_eventos}</b> | Radio: <b>${p.radio_m} m</b></div>
+    <div>Confiabilidad: <b>${p.confiabilidad}</b> (<i>${p.conf_label || ''}</i>)</div>
+    <div style="margin-top:4px">Delitos: ${p.delitos_comp || ''}</div>
+    ${p.link_gmaps ? `<div style="margin-top:6px"><a href="${p.link_gmaps}" target="_blank">Ver recorrido en GMaps</a></div>` : ''}
+  </div>`;
+}
+
+function loadData(){
+  return Promise.all([
+    fetch('alertas_centroides.geojson').then(r => r.json()),
+    fetch('alertas_poligonos.geojson').then(r => r.json())
+  ]).then(([points, polys]) => {
+    gjPoints = points; gjPolys = polys;
+    buildFilters(points);
+    render();
+  });
+}
+
+function buildFilters(points){
+  const setCom = new Set(), setDis = new Set(), setDia = new Set(), setFra = new Set();
+  for (const f of points.features){
+    const p = f.properties || {};
+    if (p.comisaria) setCom.add(p.comisaria);
+    if (p.distrito)  setDis.add(p.distrito);
+    if (p.dia)       setDia.add(p.dia);
+    if (p.franja)    setFra.add(p.franja);
+  }
+  fillSelect('fComisaria', Array.from(setCom).sort());
+  fillSelect('fDistrito',  Array.from(setDis).sort());
+  fillSelect('fDia',       Array.from(setDia).sort());
+  fillSelect('fFranja',    Array.from(setFra).sort());
+}
+
+function fillSelect(id, arr){
+  const el = document.getElementById(id);
+  for (const v of arr){
+    const opt = document.createElement('option');
+    opt.value = v; opt.textContent = v;
+    el.appendChild(opt);
+  }
+}
+
+function getFilters(){
+  return {
+    com: document.getElementById('fComisaria').value,
+    dis: document.getElementById('fDistrito').value,
+    dia: document.getElementById('fDia').value,
+    fra: document.getElementById('fFranja').value,
+    confMin: Number(document.getElementById('fConf').value) || 0,
+    usePts: document.getElementById('layerPuntos').checked,
+    usePol: document.getElementById('layerPolys').checked,
+    useHeat: document.getElementById('layerHeat').checked
+  };
+}
+
+function passFilters(p, F){
+  if (F.com && p.comisaria !== F.com) return false;
+  if (F.dis && p.distrito !== F.dis)  return false;
+  if (F.dia && p.dia !== F.dia)       return false;
+  if (F.fra && p.franja !== F.fra)    return false;
+  if ((p.confiabilidad||0) < F.confMin) return false;
+  return true;
+}
+
+function render(){
+  const F = getFilters();
+  grupoPuntos.clearLayers();
+  grupoPolys.clearLayers();
+  if (heat){ map.removeLayer(heat); heat = null; }
+  allFeatures = [];
+
+  // Puntos (centroides)
+  if (F.usePts){
+    for (const f of gjPoints.features){
+      const p = f.properties || {};
+      if (!passFilters(p, F)) continue;
+      const [lng,lat] = f.geometry.coordinates;
+      const marker = L.circleMarker([lat,lng], {
+        radius: 7, color: colorByConf(p.confiabilidad), weight: 2, fillColor: colorByConf(p.confiabilidad), fillOpacity: .3
+      }).bindPopup(popupHtml(p));
+      marker.addTo(grupoPuntos);
+      allFeatures.push([lat,lng]);
+
+      // círculo del radio
+      L.circle([lat,lng], {radius: p.radio_m||300, color: colorByConf(p.confiabilidad), weight:1, opacity:.6, fill:false})
+       .addTo(grupoPuntos);
+    }
+  }
+
+  // Polígonos
+  if (F.usePol){
+    L.geoJSON(gjPolys, {
+      style: (feat)=>({
+        color: colorByConf((feat.properties||{}).confiabilidad),
+        weight: 2, fillOpacity: 0.1
+      }),
+      filter: (feat)=> passFilters(feat.properties||{}, F),
+      onEachFeature: (feat, layer)=>{
+        layer.bindPopup(popupHtml(feat.properties||{}));
+      }
+    }).addTo(grupoPolys);
+  }
+
+  // Heatmap (sobre centroides)
+  if (F.useHeat){
+    const pts = [];
+    for (const f of gjPoints.features){
+      const p = f.properties||{};
+      if (!passFilters(p, F)) continue;
+      const [lng,lat] = f.geometry.coordinates;
+      // peso por confiabilidad (0..100 -> 0..1) o por n_eventos
+      const w = Math.max(0.1, (p.confiabilidad||0)/100);
+      pts.push([lat,lng,w]);
+    }
+    heat = L.heatLayer(pts, { radius: 25, blur: 15 });
+    heat.addTo(map);
+  }
+
+  if (allFeatures.length){
+    const bounds = L.latLngBounds(allFeatures);
+    map.fitBounds(bounds, { padding: [20,20] });
+  }
+}
+
+// Easy Print (descarga PNG del mapa)
+const printer = L.easyPrint({ tileLayer: baselayer, sizeModes: ['A4Portrait','A4Landscape'], filename:'SAT_mapa', exportOnly:true, hideControlContainer:false }).addTo(map);
+document.getElementById('btnExport').onclick = ()=> printer.printMap('CurrentSize', 'SAT_mapa');
+document.getElementById('btnFit').onclick    = ()=> render();
+
+// Eventos de filtros
+['fComisaria','fDistrito','fDia','fFranja','fConf','layerPuntos','layerPolys','layerHeat'].forEach(id=>{
+  const el = document.getElementById(id);
+  el.addEventListener('input', ()=>{
+    document.getElementById('confVal').textContent = document.getElementById('fConf').value;
+    render();
+  });
+});
+
+loadData().catch(e=> console.error(e));
+</script>
+</body>
+</html>
