@@ -50,7 +50,7 @@
   <div style="margin-top:8px; display:flex; gap:6px; flex-wrap:wrap;">
     <label><input type="checkbox" id="layerPuntos" checked/> Centroides</label>
     <label><input type="checkbox" id="layerPolys" checked/> Polígonos</label>
-    <label><input type="checkbox" id="layerHeat"  /> Heatmap</label>
+    <label><input type="checkbox" id="layerHeat"  /> Mapa de calor</label>
   </div>
 
   <div style="margin-top:8px; display:flex; gap:6px; flex-wrap:wrap;">
@@ -98,30 +98,33 @@ function popupHtml(p){
   </div>`;
 }
 
-function loadData(){
-  return Promise.all([
-    fetch('alertas_centroides.geojson').then(r => r.json()),
-    fetch('alertas_poligonos.geojson').then(r => r.json())
-  ]).then(([points, polys]) => {
-    gjPoints = points; gjPolys = polys;
-    buildFilters(points);
-    render();
-  });
-}
+// helper: toma el primero no vacío
+function pick(v1, v2){ return (v1!=null && String(v1).trim()!=='') ? v1 : v2; }
+// helper: quita " (62%)"
+function baseWithoutPct_(s){ return String(s||'').split(' (')[0].trim(); }
 
 function buildFilters(points){
   const setCom = new Set(), setDis = new Set(), setDia = new Set(), setFra = new Set();
   for (const f of points.features){
     const p = f.properties || {};
-    if (p.comisaria) setCom.add(p.comisaria);
-    if (p.distrito)  setDis.add(p.distrito);
-    if (p.dia)       setDia.add(p.dia);
-    if (p.franja)    setFra.add(p.franja);
+    const com    = pick(p.comisaria,  p.jurisdiccion);
+    const dis    = pick(p.distrito,   p.localidad);
+    const dia    = pick(p.dia,        baseWithoutPct_(p.dia_label));
+    const franja = pick(p.franja,     baseWithoutPct_(p.franja_label));
+    if (com)    setCom.add(String(com));
+    if (dis)    setDis.add(String(dis));
+    if (dia)    setDia.add(String(dia));
+    if (franja) setFra.add(String(franja));
   }
   fillSelect('fComisaria', Array.from(setCom).sort());
   fillSelect('fDistrito',  Array.from(setDis).sort());
   fillSelect('fDia',       Array.from(setDia).sort());
   fillSelect('fFranja',    Array.from(setFra).sort());
+
+  console.log('Filtros cargados:', {
+    comisarias: setCom.size, distritos: setDis.size, dias: setDia.size, franjas: setFra.size,
+    totalPoints: (points.features||[]).length
+  });
 }
 
 function fillSelect(id, arr){
@@ -147,11 +150,17 @@ function getFilters(){
 }
 
 function passFilters(p, F){
-  if (F.com && p.comisaria !== F.com) return false;
-  if (F.dis && p.distrito !== F.dis)  return false;
-  if (F.dia && p.dia !== F.dia)       return false;
-  if (F.fra && p.franja !== F.fra)    return false;
-  if ((p.confiabilidad||0) < F.confMin) return false;
+  const com    = pick(p.comisaria,  p.jurisdiccion);
+  const dis    = pick(p.distrito,   p.localidad);
+  const dia    = pick(p.dia,        baseWithoutPct_(p.dia_label));
+  const franja = pick(p.franja,     baseWithoutPct_(p.franja_label));
+  const conf   = Number(p.confiabilidad||0);
+
+  if (F.com && com !== F.com) return false;
+  if (F.dis && dis !== F.dis) return false;
+  if (F.dia && dia !== F.dia) return false;
+  if (F.fra && franja !== F.fra) return false;
+  if (conf < F.confMin) return false;
   return true;
 }
 
@@ -216,20 +225,52 @@ function render(){
 }
 
 // Easy Print (descarga PNG del mapa)
-const printer = L.easyPrint({ tileLayer: baselayer, sizeModes: ['A4Portrait','A4Landscape'], filename:'SAT_mapa', exportOnly:true, hideControlContainer:false }).addTo(map);
+const printer = L.easyPrint({
+  tileLayer: baselayer,
+  sizeModes: ['A4Portrait','A4Landscape'],
+  filename:'SAT_mapa',
+  exportOnly:true,
+  hideControlContainer:false
+}).addTo(map);
+
 document.getElementById('btnExport').onclick = ()=> printer.printMap('CurrentSize', 'SAT_mapa');
 document.getElementById('btnFit').onclick    = ()=> render();
+
+// Valor inicial del slider
+document.getElementById('confVal').textContent =
+  document.getElementById('fConf').value;
+
+// Cargar datos con chequeos y logs
+function loadData(){
+  return Promise.all([
+    fetch('alertas_centroides.geojson').then(r => {
+      if(!r.ok) throw new Error('alertas_centroides.geojson '+r.status);
+      return r.json();
+    }),
+    fetch('alertas_poligonos.geojson').then(r => {
+      if(!r.ok) throw new Error('alertas_poligonos.geojson '+r.status);
+      return r.json();
+    })
+  ]).then(([points, polys]) => {
+    console.log('Centroides:', points.features?.length||0,
+                'Polígonos:', polys.features?.length||0);
+    gjPoints = points; gjPolys = polys;
+    buildFilters(points);
+    render();
+  }).catch(e => console.error('Error cargando datos:', e));
+}
 
 // Eventos de filtros
 ['fComisaria','fDistrito','fDia','fFranja','fConf','layerPuntos','layerPolys','layerHeat'].forEach(id=>{
   const el = document.getElementById(id);
   el.addEventListener('input', ()=>{
-    document.getElementById('confVal').textContent = document.getElementById('fConf').value;
+    document.getElementById('confVal').textContent =
+      document.getElementById('fConf').value;
     render();
   });
 });
 
-loadData().catch(e=> console.error(e));
+loadData();
 </script>
 </body>
 </html>
