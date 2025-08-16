@@ -141,9 +141,11 @@
 
     estado('Cargando datos…');
 
-    return Promise.all([
-      fetchJson('alertas_centroides.geojson'),
-      fetchJson('alertas_poligonos.geojson')
+return Promise.all([
+  fetchJson('alertas_centroides.geojson?v=2'),
+  fetchJson('alertas_poligonos.geojson?v=2')
+])
+
     ]).then(([points, polys]) => {
       if (!points || !Array.isArray(points.features)) {
         throw new Error('GeoJSON de centroides sin "features".');
