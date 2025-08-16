@@ -113,6 +113,7 @@
 
   // ====== PARCHE DE ROBUSTEZ PARA CARGA DE DATOS ======
   function loadData(){
+    // Cartel de estado visual
     const estado = (msg)=> {
       let el = document.getElementById('satStatus');
       if (!el) {
@@ -133,6 +134,7 @@
     };
 
     const fetchJson = async (url) => {
+      console.log('SAT/ fetch:', url);
       const res = await fetch(url, { cache: 'no-store' });
       if (!res.ok) throw new Error(`HTTP ${res.status} al cargar ${url}`);
       try { return await res.json(); }
@@ -141,17 +143,16 @@
 
     estado('Cargando datos…');
 
-return Promise.all([
-  fetchJson('alertas_centroides.geojson?v=2'),
-  fetchJson('alertas_poligonos.geojson?v=2')
-])
-
+    // ⬇️ Cache-buster: sumo ?v=3 para forzar descarga nueva
+    return Promise.all([
+      fetchJson('alertas_centroides.geojson?v=3'),
+      fetchJson('alertas_poligonos.geojson?v=3')
     ]).then(([points, polys]) => {
       if (!points || !Array.isArray(points.features)) {
         throw new Error('GeoJSON de centroides sin "features".');
       }
       if (!polys || !Array.isArray(polys.features)) {
-        console.warn('GeoJSON de polígonos sin "features" (continuo solo con puntos).');
+        console.warn('GeoJSON de polígonos sin "features" (sigo solo con puntos).');
         polys = { type: 'FeatureCollection', features: [] };
       }
       gjPoints = points;
@@ -164,7 +165,7 @@ return Promise.all([
       console.log('SAT/ cargado ->', { centroides: nPts, poligonos: nPg });
     }).catch(err => {
       console.error('SAT/', err);
-      estado(`<b>Error:</b> ${err.message}<br/><small>Ver consola para más detalle.</small>`);
+      estado(`<b>Error:</b> ${err.message}<br/><small>Ver consola (F12 → Console).</small>`);
     });
   }
 
