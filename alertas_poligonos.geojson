@@ -1,0 +1,581 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -68.849963,
+              -32.885182
+            ],
+            [
+              -68.846884,
+              -32.885925
+            ],
+            [
+              -68.84266,
+              -32.885239
+            ],
+            [
+              -68.849963,
+              -32.885182
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "alerta_id": "ALR_450m_05/08/2025_-32.88545_-68.84650_3 // Zona 25 de Mayo",
+        "human_id": "ALR1_450m_Tue Aug 05_3ev — 25 de Mayo",
+        "fecha": "Tue Aug 05 2025 00:00:00 GMT-0300 (Argentina Standard Time)",
+        "dia": "Martes",
+        "dia_label": "Martes (67%)",
+        "franja": "Madrugada",
+        "franja_label": "Madrugada (67%)",
+        "rango_horario": "00:01–12:50",
+        "radio_m": 450,
+        "n_eventos": 3,
+        "delitos_comp": "Av. Hurto×1 | Av. Robo×1 | Av. Robo Agravado por el uso de arma de Fuego×1",
+        "delito_dom": "Av. Robo Agravado por el uso de arma de Fuego",
+        "comisaria": "Cria__1",
+        "distrito": "Capital",
+        "link_gmaps": "Ver Mapa patrullaje",
+        "confiabilidad": 36,
+        "conf_label": "Baja (disperso o baja frecuencia)",
+        "zona": "25 de Mayo"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -68.841237,
+              -32.886994
+            ],
+            [
+              -68.840844,
+              -32.889167
+            ],
+            [
+              -68.838953,
+              -32.889725
+            ],
+            [
+              -68.837009,
+              -32.889587
+            ],
+            [
+              -68.83673,
+              -32.886023
+            ],
+            [
+              -68.840867,
+              -32.884357
+            ],
+            [
+              -68.841049,
+              -32.885646
+            ],
+            [
+              -68.841237,
+              -32.886994
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "alerta_id": "ALR_450m_08/08/2025_-32.88726_-68.83983_9 // Zona 9 de Julio",
+        "human_id": "ALR2_450m_Fri Aug 08_9ev — 9 de Julio",
+        "fecha": "Fri Aug 08 2025 00:00:00 GMT-0300 (Argentina Standard Time)",
+        "dia": "Viernes",
+        "dia_label": "Viernes (33%)",
+        "franja": "Tarde",
+        "franja_label": "Tarde (44%)",
+        "rango_horario": "19:25–20:20",
+        "radio_m": 450,
+        "n_eventos": 9,
+        "delitos_comp": "Av. Hurto×8 | Av. Hurto EGT×1",
+        "delito_dom": "Av. Hurto",
+        "comisaria": "Cria__1",
+        "distrito": "Capital",
+        "link_gmaps": "Ver Mapa patrullaje",
+        "confiabilidad": 45,
+        "conf_label": "Media (patrón moderado / posible dispersión)",
+        "zona": "9 de Julio"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -68.843048,
+              -32.870485
+            ],
+            [
+              -68.842455,
+              -32.874305
+            ],
+            [
+              -68.839193,
+              -32.87202
+            ],
+            [
+              -68.843048,
+              -32.870485
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "alerta_id": "ALR_450m_08/08/2025_-32.87227_-68.84157_3 // Zona Chile",
+        "human_id": "ALR3_450m_Fri Aug 08_3ev — Chile",
+        "fecha": "Fri Aug 08 2025 00:00:00 GMT-0300 (Argentina Standard Time)",
+        "dia": "Viernes",
+        "dia_label": "Viernes (67%)",
+        "franja": "Tarde",
+        "franja_label": "Tarde (33%)",
+        "rango_horario": "21:50–07:45",
+        "radio_m": 450,
+        "n_eventos": 3,
+        "delitos_comp": "Av. Hurto×2 | Av. Robo×1",
+        "delito_dom": "Av. Hurto",
+        "comisaria": "Cria__4",
+        "distrito": "Capital",
+        "link_gmaps": "Ver Mapa patrullaje",
+        "confiabilidad": 44,
+        "conf_label": "Media (patrón moderado / posible dispersión)",
+        "zona": "Chile"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -68.839441,
+              -32.880787
+            ],
+            [
+              -68.835636,
+              -32.879821
+            ],
+            [
+              -68.835925,
+              -32.878716
+            ],
+            [
+              -68.839441,
+              -32.880787
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "alerta_id": "ALR_450m_06/08/2025_-32.87977_-68.83700_3 // Zona Avenida San Martín",
+        "human_id": "ALR4_450m_Wed Aug 06_3ev — Avenida San Martín",
+        "fecha": "Wed Aug 06 2025 00:00:00 GMT-0300 (Argentina Standard Time)",
+        "dia": "Martes",
+        "dia_label": "Martes (33%)",
+        "franja": "Tarde",
+        "franja_label": "Tarde (67%)",
+        "rango_horario": "15:50–10:20",
+        "radio_m": 450,
+        "n_eventos": 3,
+        "delitos_comp": "Av. Robo×2 | Av. Hurto×1",
+        "delito_dom": "Av. Robo",
+        "comisaria": "Cria__1",
+        "distrito": "Capital",
+        "link_gmaps": "Ver Mapa patrullaje",
+        "confiabilidad": 43,
+        "conf_label": "Media (patrón moderado / posible dispersión)",
+        "zona": "Avenida San Martín"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -68.842529,
+              -32.892172
+            ],
+            [
+              -68.841845,
+              -32.894584
+            ],
+            [
+              -68.838421,
+              -32.893347
+            ],
+            [
+              -68.838161,
+              -32.893115
+            ],
+            [
+              -68.842529,
+              -32.892172
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "alerta_id": "ALR_450m_08/08/2025_-32.89330_-68.84024_4 // Zona Avenida San Martín",
+        "human_id": "ALR5_450m_Fri Aug 08_4ev — Avenida San Martín",
+        "fecha": "Fri Aug 08 2025 00:00:00 GMT-0300 (Argentina Standard Time)",
+        "dia": "Viernes",
+        "dia_label": "Viernes (50%)",
+        "franja": "Noche",
+        "franja_label": "Noche (75%)",
+        "rango_horario": "19:30–23:15",
+        "radio_m": 450,
+        "n_eventos": 4,
+        "delitos_comp": "Av. Hurto Agravado×2 | Av. Hurto×1 | Av. Robo×1",
+        "delito_dom": "Av. Hurto Agravado",
+        "comisaria": "Cria__2",
+        "distrito": "Capital",
+        "link_gmaps": "Ver Mapa patrullaje",
+        "confiabilidad": 53,
+        "conf_label": "Media (patrón moderado / posible dispersión)",
+        "zona": "Avenida San Martín"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -68.836013,
+              -32.86436
+            ],
+            [
+              -68.834593,
+              -32.866781
+            ],
+            [
+              -68.835419,
+              -32.864873
+            ],
+            [
+              -68.836013,
+              -32.86436
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "alerta_id": "ALR_450m_06/08/2025_-32.86534_-68.83534_3 // Zona Avenida España",
+        "human_id": "ALR6_450m_Wed Aug 06_3ev — Avenida España",
+        "fecha": "Wed Aug 06 2025 00:00:00 GMT-0300 (Argentina Standard Time)",
+        "dia": "Martes",
+        "dia_label": "Martes (33%)",
+        "franja": "Noche",
+        "franja_label": "Noche (67%)",
+        "rango_horario": "21:45–21:20",
+        "radio_m": 450,
+        "n_eventos": 3,
+        "delitos_comp": "Av. Robo Agravado por el uso de arma de Fuego×2 | Av. Robo Agravado×1",
+        "delito_dom": "Av. Robo Agravado por el uso de arma de Fuego",
+        "comisaria": "Cria__4",
+        "distrito": "Capital",
+        "link_gmaps": "Ver Mapa patrullaje",
+        "confiabilidad": 48,
+        "conf_label": "Media (patrón moderado / posible dispersión)",
+        "zona": "Avenida España"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -68.835361,
+              -32.871304
+            ],
+            [
+              -68.83356,
+              -32.875105
+            ],
+            [
+              -68.83498,
+              -32.87152
+            ],
+            [
+              -68.835361,
+              -32.871304
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "alerta_id": "ALR_450m_08/08/2025_-32.87264_-68.83463_3 // Zona Avenida San Martín",
+        "human_id": "ALR7_450m_Fri Aug 08_3ev — Avenida San Martín",
+        "fecha": "Fri Aug 08 2025 00:00:00 GMT-0300 (Argentina Standard Time)",
+        "dia": "Jueves",
+        "dia_label": "Jueves (33%)",
+        "franja": "Noche",
+        "franja_label": "Noche (67%)",
+        "rango_horario": "20:35–01:00",
+        "radio_m": 450,
+        "n_eventos": 3,
+        "delitos_comp": "Av. Robo×1 | Av. Robo Agravado×1 | Av. Robo agravado EGT×1",
+        "delito_dom": "Av. Robo agravado EGT",
+        "comisaria": "Cria__4",
+        "distrito": "Capital",
+        "link_gmaps": "Ver Mapa patrullaje",
+        "confiabilidad": 41,
+        "conf_label": "Media (patrón moderado / posible dispersión)",
+        "zona": "Avenida San Martín"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -68.85811,
+              -32.896865
+            ],
+            [
+              -68.854079,
+              -32.897892
+            ],
+            [
+              -68.857072,
+              -32.895152
+            ],
+            [
+              -68.85811,
+              -32.896865
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "alerta_id": "ALR_450m_09/08/2025_-32.89645_-68.85668_4 // Zona Martínez de Rozas",
+        "human_id": "ALR8_450m_Sat Aug 09_4ev — Martínez de Rozas",
+        "fecha": "Sat Aug 09 2025 00:00:00 GMT-0300 (Argentina Standard Time)",
+        "dia": "Viernes",
+        "dia_label": "Viernes (25%)",
+        "franja": "Tarde",
+        "franja_label": "Tarde (50%)",
+        "rango_horario": "17:05–15:20",
+        "radio_m": 450,
+        "n_eventos": 4,
+        "delitos_comp": "Av. Hurto×1 | Av. Hurto Agravado×1 | Av. Robo×1 | Av. Robo Agravado×1",
+        "delito_dom": "Av. Hurto Agravado",
+        "comisaria": "Cria__5",
+        "distrito": "Capital",
+        "link_gmaps": "Ver Mapa patrullaje",
+        "confiabilidad": 51,
+        "conf_label": "Media (patrón moderado / posible dispersión)",
+        "zona": "Martínez de Rozas"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -68.862897,
+              -32.896124
+            ],
+            [
+              -68.862605,
+              -32.899495
+            ],
+            [
+              -68.860875,
+              -32.89796
+            ],
+            [
+              -68.862897,
+              -32.896124
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "alerta_id": "ALR_450m_07/08/2025_-32.89786_-68.86213_3 // Zona Emilio Jofré",
+        "human_id": "ALR9_450m_Thu Aug 07_3ev — Emilio Jofré",
+        "fecha": "Thu Aug 07 2025 00:00:00 GMT-0300 (Argentina Standard Time)",
+        "dia": "Jueves",
+        "dia_label": "Jueves (67%)",
+        "franja": "Noche",
+        "franja_label": "Noche (67%)",
+        "rango_horario": "22:50–18:30",
+        "radio_m": 450,
+        "n_eventos": 3,
+        "delitos_comp": "Av. Hurto×1 | Av. Robo×1 | Av. Robo Agravado×1",
+        "delito_dom": "Av. Robo",
+        "comisaria": "Cria__5",
+        "distrito": "Capital",
+        "link_gmaps": "Ver Mapa patrullaje",
+        "confiabilidad": 46,
+        "conf_label": "Media (patrón moderado / posible dispersión)",
+        "zona": "Emilio Jofré"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -68.868331,
+              -32.901686
+            ],
+            [
+              -68.862133,
+              -32.905724
+            ],
+            [
+              -68.863112,
+              -32.903689
+            ],
+            [
+              -68.864298,
+              -32.902586
+            ],
+            [
+              -68.868331,
+              -32.901686
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "alerta_id": "ALR_450m_06/08/2025_-32.90342_-68.86447_4 // Zona Méjico",
+        "human_id": "ALR10_450m_Wed Aug 06_4ev — Méjico",
+        "fecha": "Wed Aug 06 2025 00:00:00 GMT-0300 (Argentina Standard Time)",
+        "dia": "Miércoles",
+        "dia_label": "Miércoles (50%)",
+        "franja": "Noche",
+        "franja_label": "Noche (50%)",
+        "rango_horario": "00:30–11:18",
+        "radio_m": 450,
+        "n_eventos": 4,
+        "delitos_comp": "Av. Hurto Agravado×2 | Av. Robo Agravado×1 | Av. Robo EGT×1",
+        "delito_dom": "Av. Hurto Agravado",
+        "comisaria": "Cria_27",
+        "distrito": "Godoy Cruz",
+        "link_gmaps": "Ver Mapa patrullaje",
+        "confiabilidad": 43,
+        "conf_label": "Media (patrón moderado / posible dispersión)",
+        "zona": "Méjico"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -68.849215,
+              -32.909843
+            ],
+            [
+              -68.848275,
+              -32.910873
+            ],
+            [
+              -68.848085,
+              -32.908232
+            ],
+            [
+              -68.849215,
+              -32.909843
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "alerta_id": "ALR_450m_06/08/2025_-32.90965_-68.84852_3 // Zona Biritos",
+        "human_id": "ALR11_450m_Wed Aug 06_3ev — Biritos",
+        "fecha": "Wed Aug 06 2025 00:00:00 GMT-0300 (Argentina Standard Time)",
+        "dia": "Sábado",
+        "dia_label": "Sábado (33%)",
+        "franja": "Madrugada",
+        "franja_label": "Madrugada (67%)",
+        "rango_horario": "02:50–02:30",
+        "radio_m": 450,
+        "n_eventos": 3,
+        "delitos_comp": "Av. Robo×2 | Av. Hurto Agravado×1",
+        "delito_dom": "Av. Robo",
+        "comisaria": "Cria_34",
+        "distrito": "Godoy Cruz",
+        "link_gmaps": "Ver Mapa patrullaje",
+        "confiabilidad": 49,
+        "conf_label": "Media (patrón moderado / posible dispersión)",
+        "zona": "Biritos"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -68.82045,
+              -32.942862
+            ],
+            [
+              -68.820063,
+              -32.94633
+            ],
+            [
+              -68.819668,
+              -32.944088
+            ],
+            [
+              -68.82045,
+              -32.942862
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "alerta_id": "ALR_450m_11/08/2025_-32.94443_-68.82006_3 // Zona Azul",
+        "human_id": "ALR12_450m_Mon Aug 11_3ev — Azul",
+        "fecha": "Mon Aug 11 2025 00:00:00 GMT-0300 (Argentina Standard Time)",
+        "dia": "Sábado",
+        "dia_label": "Sábado (33%)",
+        "franja": "Tarde",
+        "franja_label": "Tarde (67%)",
+        "rango_horario": "13:45–20:00",
+        "radio_m": 450,
+        "n_eventos": 3,
+        "delitos_comp": "Av. Robo×2 | Av. Hurto Agravado×1",
+        "delito_dom": "Av. Robo",
+        "comisaria": "Cria_37",
+        "distrito": "Godoy Cruz",
+        "link_gmaps": "Ver Mapa patrullaje",
+        "confiabilidad": 46,
+        "conf_label": "Media (patrón moderado / posible dispersión)",
+        "zona": "Azul"
+      }
+    }
+  ]
+}
